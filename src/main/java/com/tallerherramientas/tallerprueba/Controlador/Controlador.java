@@ -1,5 +1,6 @@
 package com.tallerherramientas.tallerprueba.Controlador;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tallerherramientas.tallerprueba.Modelo.Repuesto;
 import com.tallerherramientas.tallerprueba.Modelo.Stock;
 import com.tallerherramientas.tallerprueba.Servicios.Interfaz.RepuestoServicio;
@@ -40,8 +41,25 @@ public class Controlador {
     }
 
     @PostMapping
-    public Repuesto crearRepuesto(@RequestBody Repuesto repuesto){
+    /*public Repuesto crearRepuesto(@RequestBody Repuesto repuesto){
+        System.out.println("Repuesto recibido: "+repuesto);
+        System.out.println("Repuesto codigoDeProducto: "+repuesto.getCodigoDeProducto());
+        System.out.println("Repuesto Titulo: "+repuesto.getTitulo());
+        System.out.println("Repuesto Descripcion: "+repuesto.getDescripcion());
+        System.out.println("Repuesto Ubicacion: "+repuesto.getUbicacion());
         return repuestoServicio.guardarRepuesto(repuesto);
+    }
+     */
+    public ResponseEntity<Repuesto>crearRepuesto(@RequestBody String jsonRepuesto){
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            Repuesto repuesto = mapper.readValue(jsonRepuesto, Repuesto.class);
+            System.out.println("Objeto deserializado: "+repuesto.getTitulo());
+            return new ResponseEntity<>(repuestoServicio.guardarRepuesto(repuesto),HttpStatus.CREATED);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")

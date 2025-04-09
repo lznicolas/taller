@@ -1,5 +1,6 @@
 package com.tallerherramientas.tallerprueba.Modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tallerherramientas.tallerprueba.Modelo.Enum.Ubicacion;
 import jakarta.persistence.*;
 
@@ -12,12 +13,15 @@ public class Repuesto {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
+        @JsonProperty("codigoDeProducto")
         @Column(unique = true, nullable = false)
         private String codigoDeProducto;
-        
+        @JsonProperty("titulo")
         private String titulo;
+        @JsonProperty("descripcion")
         @Column(columnDefinition = "TEXT") // Usa TEXT para cadenas largas
         private String descripcion;
+        @JsonProperty("ubicacion")
         @Enumerated(EnumType.STRING)
         private Ubicacion ubicacion;
 
