@@ -1,4 +1,4 @@
-package com.tallerherramientas.tallerprueba.Modelo.Entidades;
+package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tallerherramientas.tallerprueba.Modelo.Enums.Ubicacion;

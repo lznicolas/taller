@@ -1,7 +1,7 @@
-package com.tallerherramientas.tallerprueba.Controlador.PersonaController;
+package com.tallerherramientas.tallerprueba.Controllers.PersonaController;
 
-import com.tallerherramientas.tallerprueba.Modelo.Entidades.Cliente;
-import com.tallerherramientas.tallerprueba.Servicios.Contratos.ClienteDAO;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.Cliente;
+import com.tallerherramientas.tallerprueba.Services.Contratos.ClienteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/clientes")
 @CrossOrigin(origins = "http://localhost:5173")
-public class ControladorCliente {
+public class ClienteController {
     //Declaracion de tipo de servicio
     @Autowired
     private ClienteDAO clienteDAO;

@@ -1,4 +1,4 @@
-package com.tallerherramientas.tallerprueba.Modelo.Entidades;
+package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
 import jakarta.persistence.*;
 

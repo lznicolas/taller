@@ -1,10 +1,10 @@
-package com.tallerherramientas.tallerprueba.Controlador.RepuestoStockController;
+package com.tallerherramientas.tallerprueba.Controllers.RepuestoStockController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tallerherramientas.tallerprueba.Modelo.Entidades.Repuesto;
-import com.tallerherramientas.tallerprueba.Modelo.Entidades.Stock;
-import com.tallerherramientas.tallerprueba.Servicios.Contratos.RepuestoDAO;
-import com.tallerherramientas.tallerprueba.Servicios.Contratos.StockDAO;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.Repuesto;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.Stock;
+import com.tallerherramientas.tallerprueba.Services.Contratos.RepuestoDAO;
+import com.tallerherramientas.tallerprueba.Services.Contratos.StockDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

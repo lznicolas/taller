@@ -1,4 +1,4 @@
-package com.tallerherramientas.tallerprueba.Modelo.Entidades;
+package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
 import com.tallerherramientas.tallerprueba.Modelo.Enums.Especialidad;
 import jakarta.persistence.Entity;

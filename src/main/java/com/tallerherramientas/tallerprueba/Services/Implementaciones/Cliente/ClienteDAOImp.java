@@ -1,8 +1,8 @@
-package com.tallerherramientas.tallerprueba.Servicios.Implementaciones.Cliente;
+package com.tallerherramientas.tallerprueba.Services.Implementaciones.Cliente;
 
-import com.tallerherramientas.tallerprueba.Modelo.Entidades.Cliente;
-import com.tallerherramientas.tallerprueba.Repositorio.ClienteRepository;
-import com.tallerherramientas.tallerprueba.Servicios.Contratos.ClienteDAO;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.Cliente;
+import com.tallerherramientas.tallerprueba.Repositories.ClienteRepository;
+import com.tallerherramientas.tallerprueba.Services.Contratos.ClienteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.tallerherramientas.tallerprueba.Servicios.Contratos;
+package com.tallerherramientas.tallerprueba.Services.Contratos;
 import java.util.List;
-import com.tallerherramientas.tallerprueba.Modelo.Entidades.Repuesto;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.Repuesto;
 
 public interface RepuestoDAO {
     List<Repuesto> obtenerTodosLosRepuestos();

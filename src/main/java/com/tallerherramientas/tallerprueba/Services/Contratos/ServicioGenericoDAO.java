@@ -1,4 +1,4 @@
-package com.tallerherramientas.tallerprueba.Servicios.Contratos;
+package com.tallerherramientas.tallerprueba.Services.Contratos;
 
 import java.util.List;
 import java.util.Optional;

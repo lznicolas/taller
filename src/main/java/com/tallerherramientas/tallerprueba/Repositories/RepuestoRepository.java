@@ -1,6 +1,6 @@
-package com.tallerherramientas.tallerprueba.Repositorio;
+package com.tallerherramientas.tallerprueba.Repositories;
 
-import com.tallerherramientas.tallerprueba.Modelo.Entidades.Repuesto;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.Repuesto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

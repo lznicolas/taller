@@ -1,8 +1,8 @@
-package com.tallerherramientas.tallerprueba.Servicios.Implementaciones.RepuestoStock;
+package com.tallerherramientas.tallerprueba.Services.Implementaciones.RepuestoStock;
 
-import com.tallerherramientas.tallerprueba.Modelo.Entidades.Repuesto;
-import com.tallerherramientas.tallerprueba.Repositorio.RepuestoRepository;
-import com.tallerherramientas.tallerprueba.Servicios.Contratos.RepuestoDAO;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.Repuesto;
+import com.tallerherramientas.tallerprueba.Repositories.RepuestoRepository;
+import com.tallerherramientas.tallerprueba.Services.Contratos.RepuestoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

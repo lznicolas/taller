@@ -1,6 +1,6 @@
-package com.tallerherramientas.tallerprueba.Servicios.Contratos;
+package com.tallerherramientas.tallerprueba.Services.Contratos;
 
-import com.tallerherramientas.tallerprueba.Modelo.Entidades.Empleado;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.Empleado;
 
 public interface EmpleadoDAO extends ServicioGenericoDAO<Empleado,Long> {
 

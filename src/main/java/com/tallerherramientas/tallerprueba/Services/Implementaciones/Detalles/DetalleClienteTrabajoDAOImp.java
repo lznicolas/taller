@@ -1,7 +1,7 @@
-package com.tallerherramientas.tallerprueba.Servicios.Implementaciones.Detalles;
+package com.tallerherramientas.tallerprueba.Services.Implementaciones.Detalles;
 
-import com.tallerherramientas.tallerprueba.Modelo.Entidades.DetalleClienteTrabajo;
-import com.tallerherramientas.tallerprueba.Servicios.Contratos.DetalleClienteTrabajoDAO;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.DetalleClienteTrabajo;
+import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleClienteTrabajoDAO;
 
 import java.util.List;
 import java.util.Optional;

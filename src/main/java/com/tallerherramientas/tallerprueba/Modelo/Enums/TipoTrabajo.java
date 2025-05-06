@@ -1,4 +1,4 @@
-package com.tallerherramientas.tallerprueba.Modelo.Enum;
+package com.tallerherramientas.tallerprueba.Modelo.Enums;
 
 public enum TipoTrabajo {
     RECTIFICAION,
