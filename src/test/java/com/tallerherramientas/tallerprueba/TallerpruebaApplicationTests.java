@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TallerpruebaApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void simpleTest() {
+		assert true;
 	}
 
 }
