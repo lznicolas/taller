@@ -15,28 +15,6 @@ public class RepuestoDAOImp implements RepuestoDAO {
     @Autowired
     private RepuestoRepository repuestoRepository;
     @Override
-    public List<Repuesto> obtenerTodosLosRepuestos() {
-        return repuestoRepository.findAll();
-    }
-
-    @Override
-    public Repuesto obtenerRepuestoPorId(Long id) {
-        Optional<Repuesto> repuesto = repuestoRepository.findById(id);
-        return repuesto.orElse(null);
-    }
-
-    @Override
-    public Repuesto guardarRepuesto(Repuesto repuesto) {
-
-        return repuestoRepository.save(repuesto);
-    }
-
-    @Override
-    public void eliminarRepuesto(Long id) {
-        repuestoRepository.deleteById(id);
-    }
-
-    @Override
     public Repuesto buscarRepuestoPorTitulo(String titulo) {
         List<Repuesto> repuestos = repuestoRepository.findByTitulo(titulo);
         if (!repuestos.isEmpty()) {
@@ -60,5 +38,26 @@ public class RepuestoDAOImp implements RepuestoDAO {
     public Repuesto buscarPorCodigoDeProducto(String codigoDeProducto) {
         Optional<Repuesto> repuesto = repuestoRepository.findByCodigoDeProducto(codigoDeProducto);
         return repuesto.orElse(null);
+    }
+
+    @Override
+    public Repuesto guardar(Repuesto entidad) {
+        return repuestoRepository.save(entidad);
+    }
+
+    @Override
+    public List<Repuesto> listar() {
+        return repuestoRepository.findAll();
+    }
+
+    @Override
+    public Optional<Repuesto> obtenerPorId(Long aLong) {
+        return repuestoRepository.findById(aLong);
+    }
+
+    @Override
+    public void eliminar(Long aLong) {
+        repuestoRepository.deleteById(aLong);
+
     }
 }

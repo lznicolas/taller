@@ -6,6 +6,7 @@ import com.tallerherramientas.tallerprueba.Services.Contratos.StockDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,24 +14,23 @@ public class StockDAOImp implements StockDAO {
     @Autowired
     private StockRepository stockRepository;
 
-
-    /*@Override
-    public List<Stock> obtenerTodos() {
-        return stockRepository.findAll();
-    }*/
-
     @Override
-    public Optional<Stock> obtenerPorRepuestoId(Long repuestoId) {
-        return stockRepository.findByRepuestoId(repuestoId);
+    public Stock guardar(Stock entidad) {
+        return stockRepository.save(entidad);
     }
 
     @Override
-    public Stock guardarStock(Stock stock) {
-        return stockRepository.save(stock);
+    public List<Stock> listar() {
+        return null;
     }
 
-    /*@Override
-    public void eliminarStock(Long id) {
-        stockRepository.deleteById(id);
-    }*/
+    @Override
+    public Optional<Stock> obtenerPorId(Long aLong) {
+        return stockRepository.findByRepuestoId(aLong);
+    }
+
+    @Override
+    public void eliminar(Long aLong) {
+
+    }
 }

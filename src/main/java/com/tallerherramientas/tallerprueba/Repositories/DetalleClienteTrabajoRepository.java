@@ -1,5 +1,6 @@
 package com.tallerherramientas.tallerprueba.Repositories;
 
+import com.tallerherramientas.tallerprueba.Modelo.DTO.DetalleClienteDTO;
 import com.tallerherramientas.tallerprueba.Modelo.Entities.DetalleClienteTrabajo;
 import org.springframework.data.jpa.repository.JpaRepository;
 

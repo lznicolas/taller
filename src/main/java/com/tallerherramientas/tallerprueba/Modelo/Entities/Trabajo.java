@@ -19,9 +19,9 @@ public class Trabajo {
     @OneToMany(mappedBy = "trabajo",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleEmpleadoTrabajo> detallesEmpleados;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente;
+    private Cliente cliente;*/
     @OneToMany(mappedBy = "trabajo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleRepuestoTrabajo> detallesRepuestos;
     private String diagnostico;//Como llego el motor/pieza/etc
@@ -48,7 +48,7 @@ public class Trabajo {
         this.id = id;
         this.tipoTrabajo = tipoTrabajo;
         this.detallesEmpleados = detallesEmpleados;
-        this.cliente = cliente;
+
     }
 
     public Long getId() {
@@ -73,14 +73,6 @@ public class Trabajo {
 
     public void setDetallesEmpleados(List<DetalleEmpleadoTrabajo> detallesEmpleados) {
         this.detallesEmpleados = detallesEmpleados;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public String getDiagnostico() {

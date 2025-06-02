@@ -27,26 +27,26 @@ public class Controlador {
     //Repuesto
     @GetMapping("/all")
     public List<Repuesto> obtenerTodosLosRespuestos(){
-        return repuestoDAO.obtenerTodosLosRepuestos();
+        return repuestoDAO.listar();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Repuesto> obtenerRepuestoPorId(@PathVariable Long id){
-        Repuesto repuesto = repuestoDAO.obtenerRepuestoPorId(id);
-        if(repuesto != null){
-            return new ResponseEntity<>(repuesto, HttpStatus.OK);
-        }else{
+        Repuesto repuesto = repuestoDAO.obtenerPorId(id).orElse(null);
+        if (repuesto != null){
+            return new ResponseEntity<>(repuesto,HttpStatus.OK);
+        }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    public ResponseEntity<Repuesto>crearRepuesto(@RequestBody String jsonRepuesto){
+    public ResponseEntity<Repuesto>guardarRepuesto (@RequestBody String jsonRepuesto){
         ObjectMapper mapper = new ObjectMapper();
         try{
             Repuesto repuesto = mapper.readValue(jsonRepuesto, Repuesto.class);
             System.out.println("Objeto deserializado: "+repuesto.getTitulo());
-            return new ResponseEntity<>(repuestoDAO.guardarRepuesto(repuesto),HttpStatus.CREATED);
+            return new ResponseEntity<>(repuestoDAO.guardar (repuesto),HttpStatus.CREATED);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -55,18 +55,23 @@ public class Controlador {
 
     @PutMapping("/{id}")
     public ResponseEntity<Repuesto> actualizarRepuesto(@PathVariable Long id, @RequestBody Repuesto repuesto){
-        Repuesto repuestoExistente = repuestoDAO.obtenerRepuestoPorId(id);
+        Repuesto repuestoExistente = repuestoDAO.obtenerPorId(id).orElse(null);
         if (repuestoExistente == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         repuestoExistente.setTitulo(repuesto.getTitulo());
         repuestoExistente.setDescripcion(repuesto.getDescripcion());
         repuestoExistente.setUbicacion(repuesto.getUbicacion());
-        return new ResponseEntity<>(repuestoDAO.guardarRepuesto(repuestoExistente),HttpStatus.OK);
+        return new ResponseEntity<>(repuestoDAO.guardar(repuestoExistente),HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public void eliminarRepuesto(@PathVariable Long id){
-        repuestoDAO.eliminarRepuesto(id);
+    public ResponseEntity<?> eliminar(@PathVariable Long id){
+        Repuesto repuesto = repuestoDAO.obtenerPorId(id).orElse(null);
+        if(repuesto == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        repuestoDAO.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/titulo/{titulo}")
@@ -105,7 +110,7 @@ public class Controlador {
     public ResponseEntity<Stock>obtenerStockPorCodigo(@PathVariable String codigo){
         Repuesto repuesto= repuestoDAO.buscarPorCodigoDeProducto(codigo);
         if (repuesto != null){
-            return stockDAO.obtenerPorRepuestoId(repuesto.getId())
+            return stockDAO.obtenerPorId(repuesto.getId())
                     .map(stock -> new ResponseEntity<>(stock,HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
@@ -115,11 +120,11 @@ public class Controlador {
     public ResponseEntity<Stock> agregaStock(@PathVariable String codigo, @RequestBody Stock stockRequest){
         Repuesto repuesto = repuestoDAO.buscarPorCodigoDeProducto(codigo);
         if(repuesto !=null){
-            Optional<Stock>stockExistente = stockDAO.obtenerPorRepuestoId(repuesto.getId());
+            Optional<Stock>stockExistente = stockDAO.obtenerPorId(repuesto.getId());
 
             Stock stock = stockExistente.orElse(new Stock(repuesto,0));
             stock.setCantidad(stock.getCantidad() + stockRequest.getCantidad());
-            return new ResponseEntity<>(stockDAO.guardarStock(stock),HttpStatus.OK);
+            return new ResponseEntity<>(stockDAO.guardar(stock),HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -131,11 +136,11 @@ public class Controlador {
         if(repuesto == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<Stock> stockExistence = stockDAO.obtenerPorRepuestoId(repuesto.getId());
+        Optional<Stock> stockExistence = stockDAO.obtenerPorId(repuesto.getId());
 
         Stock stock = stockExistence.orElse(new Stock(repuesto,0));
         stock.setCantidad(stock.getCantidad() + stockRequest.getCantidad());
-        stockDAO.guardarStock(stock);
+        stockDAO.guardar(stock);
         return new ResponseEntity<>(stock, HttpStatus.OK);
     }
 }

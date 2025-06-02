@@ -18,8 +18,8 @@ public class Cliente extends Persona{
 
     private Double saldo;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Trabajo> trabajos;
+    /*@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Trabajo> trabajos;*/
 
     public Cliente() {
     }
@@ -61,11 +61,4 @@ public class Cliente extends Persona{
         this.saldo = saldo;
     }
 
-    public List<Trabajo> getTrabajos() {
-        return trabajos;
-    }
-
-    public void setTrabajos(List<Trabajo> trabajos) {
-        this.trabajos = trabajos;
-    }
 }

@@ -4,9 +4,6 @@ import com.tallerherramientas.tallerprueba.Modelo.Entities.Stock;
 
 import java.util.Optional;
 
-public interface StockDAO {
-   // List<Stock> obtenerTodos();
-    Optional<Stock> obtenerPorRepuestoId(Long repuestoId);
-    Stock guardarStock(Stock stock);
-    //void eliminarStock(Long id);//revisar
+public interface StockDAO extends ServicioGenericoDAO<Stock,Long>{
+
 }

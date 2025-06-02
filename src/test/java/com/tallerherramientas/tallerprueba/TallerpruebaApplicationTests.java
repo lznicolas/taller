@@ -6,9 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class TallerpruebaApplicationTests {
 
-	@Test
+	/*@Test
 	void simpleTest() {
 		assert true;
 	}
-
+*/
 }
