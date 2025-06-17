@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface DetalleClienteTrabajoDAO extends ServicioGenericoDAO<DetalleClienteTrabajo,Long> {
     void guardarDetalleClienteTrabajo(List<DetalleClienteDTO> dto, Trabajo trabajo);
+    List<DetalleClienteTrabajo> obtenerPorClienteId(Long clienteId);
 }

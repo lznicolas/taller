@@ -4,12 +4,9 @@ import com.tallerherramientas.tallerprueba.Modelo.DTO.DetalleClienteDTO;
 import com.tallerherramientas.tallerprueba.Modelo.Entities.Cliente;
 import com.tallerherramientas.tallerprueba.Modelo.Entities.DetalleClienteTrabajo;
 import com.tallerherramientas.tallerprueba.Modelo.Entities.Trabajo;
-import com.tallerherramientas.tallerprueba.Repositories.ClienteRepository;
 import com.tallerherramientas.tallerprueba.Repositories.DetalleClienteTrabajoRepository;
 import com.tallerherramientas.tallerprueba.Services.Contratos.ClienteDAO;
 import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleClienteTrabajoDAO;
-import com.tallerherramientas.tallerprueba.Services.Contratos.TrabajoDAO;
-import com.tallerherramientas.tallerprueba.Services.Implementaciones.Cliente.ClienteDAOImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +50,11 @@ public class DetalleClienteTrabajoDAOImp implements DetalleClienteTrabajoDAO {
 
             detalleClienteTrabajoRepository.save(detalleClienteTrabajo);
         }
+    }
+
+    @Override
+    public List<DetalleClienteTrabajo> obtenerPorClienteId(Long clienteId) {
+        return detalleClienteTrabajoRepository.findByClienteId(clienteId);
     }
 
 }

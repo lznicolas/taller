@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class TrabajoDAOImp implements TrabajoDAO {
     @Autowired
@@ -91,6 +93,29 @@ public class TrabajoDAOImp implements TrabajoDAO {
     }
 
     @Override
+    public List<Trabajo> obtenerTrabajosPorClienteId(Long clienteId) {
+        List<DetalleClienteTrabajo> detalleClienteTrabajos = detalleClienteTrabajoDAO.obtenerPorClienteId(clienteId);
+
+        System.out.println("Detalles encontrados: " + detalleClienteTrabajos);
+        return detalleClienteTrabajos.stream()
+                .map(DetalleClienteTrabajo::getTrabajo)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TrabajoDTO> BuscarTrabajosPorCliente(Long clienteId) {
+        List<DetalleClienteTrabajo> detalleClienteTrabajos = detalleClienteTrabajoDAO.obtenerPorClienteId(clienteId);
+
+        return detalleClienteTrabajos.stream()
+                .map(DetalleClienteTrabajo::getTrabajo)
+                .distinct()
+                .map(this::convertirATrabajoDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
     public Trabajo guardar(Trabajo trabajo) {
         return trabajoRepository.save(trabajo);
     }
@@ -109,5 +134,43 @@ public class TrabajoDAOImp implements TrabajoDAO {
     @Override
     public void eliminar(Long aLong) {
         trabajoRepository.deleteById(aLong);
+    }
+
+    private TrabajoDTO convertirATrabajoDTO(Trabajo trabajo){
+        TrabajoDTO dto = new TrabajoDTO();
+        dto.setTipoTrabajo(trabajo.getTipoTrabajo());
+        dto.setDiagnostico(trabajo.getDiagnostico());
+        dto.setTareasRealizar(trabajo.getTareasRealizar());
+        dto.setDetalles(trabajo.getDetalles());
+
+        //Empleados
+        List<DetalleEmpleadoDTO> empleadoDTOS = trabajo.getDetallesEmpleados().stream()
+                .map(detalleEmpleadoTrabajo -> {
+                    DetalleEmpleadoDTO empleadoDTO = new DetalleEmpleadoDTO();
+                    empleadoDTO.setEmpleadoId(detalleEmpleadoTrabajo.getEmpleado().getId());
+                    return empleadoDTO;
+                }).collect(Collectors.toList());
+        dto.setEmpleados(empleadoDTOS);
+
+        //repuestos
+        List<DetalleRepuestoDTO> repuestoDTOS = trabajo.getDetallesRepuestos().stream()
+                .map(detalleRepuestoTrabajo -> {
+                    DetalleRepuestoDTO detalleRepuestoDTO = new DetalleRepuestoDTO();
+                    detalleRepuestoDTO.setRepuestoId(detalleRepuestoTrabajo.getRepuesto().getId());
+                    detalleRepuestoDTO.setCantidadUsada(detalleRepuestoTrabajo.getCantidadUsada());
+
+                    return detalleRepuestoDTO;
+                }).collect(Collectors.toList());
+        dto.setRepuestos(repuestoDTOS);
+
+        //clientes
+        List<DetalleClienteDTO>clienteDTOS = trabajo.getDetallesClientes().stream()
+                .map(detalleClienteTrabajo -> {
+                    DetalleClienteDTO detalleClienteDTO = new DetalleClienteDTO();
+                    detalleClienteDTO.setClienteId(detalleClienteTrabajo.getId());
+                    return detalleClienteDTO;
+                }).collect(Collectors.toList());
+        dto.setClientes(clienteDTOS);
+        return dto;
     }
 }
