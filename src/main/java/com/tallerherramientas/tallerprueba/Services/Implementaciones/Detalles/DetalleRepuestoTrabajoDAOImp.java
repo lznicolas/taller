@@ -7,6 +7,7 @@ import com.tallerherramientas.tallerprueba.Modelo.Entities.Trabajo;
 import com.tallerherramientas.tallerprueba.Repositories.DetalleRepuestoTrabajoRepository;
 import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleRepuestoTrabajoDAO;
 import com.tallerherramientas.tallerprueba.Services.Contratos.RepuestoDAO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class DetalleRepuestoTrabajoDAOImp implements DetalleRepuestoTrabajoDAO {
     @Autowired
-    private DetalleRepuestoTrabajoRepository detalleRepuestoTrabajoRepository;
+    private final DetalleRepuestoTrabajoRepository detalleRepuestoTrabajoRepository;
     @Autowired
     private RepuestoDAO repuestoDAO;
     @Override

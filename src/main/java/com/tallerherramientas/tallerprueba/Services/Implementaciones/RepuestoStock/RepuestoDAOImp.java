@@ -3,6 +3,7 @@ package com.tallerherramientas.tallerprueba.Services.Implementaciones.RepuestoSt
 import com.tallerherramientas.tallerprueba.Modelo.Entities.Repuesto;
 import com.tallerherramientas.tallerprueba.Repositories.RepuestoRepository;
 import com.tallerherramientas.tallerprueba.Services.Contratos.RepuestoDAO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class RepuestoDAOImp implements RepuestoDAO {
 
     @Autowired
-    private RepuestoRepository repuestoRepository;
+    private final RepuestoRepository repuestoRepository;
     @Override
     public Repuesto buscarRepuestoPorTitulo(String titulo) {
         List<Repuesto> repuestos = repuestoRepository.findByTitulo(titulo);

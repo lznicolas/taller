@@ -2,12 +2,16 @@ package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
 import com.tallerherramientas.tallerprueba.Modelo.Enums.TipoCliente;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Generated;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Entity
 @Table(name = "clientes")
 @PrimaryKeyJoinColumn(name = "persona_id")
+@SuperBuilder
 public class Cliente extends Persona{
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;

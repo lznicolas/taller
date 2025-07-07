@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "empleados")
 @PrimaryKeyJoinColumn(name = "persona_id")
+@SuperBuilder
 public class Empleado extends Persona{
 
     private String legajo;

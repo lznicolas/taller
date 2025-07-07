@@ -2,12 +2,17 @@ package com.tallerherramientas.tallerprueba.Controllers.PersonaController;
 
 import com.tallerherramientas.tallerprueba.Modelo.Entities.Cliente;
 import com.tallerherramientas.tallerprueba.Services.Contratos.ClienteDAO;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.validation.BindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -33,7 +38,12 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> crear (@RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> crear (@Valid @RequestBody Cliente cliente, BindingResult result){
+        /*if (result.hasErrors()){
+            Map<String,String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error -> errors.put(error.getField(),error.getDefaultMessage()));
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }*/
         Cliente nuevoCliente = clienteDAO.guardar(cliente);
         return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
     }

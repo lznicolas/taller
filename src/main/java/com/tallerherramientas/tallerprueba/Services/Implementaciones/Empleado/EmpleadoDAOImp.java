@@ -3,6 +3,7 @@ package com.tallerherramientas.tallerprueba.Services.Implementaciones.Empleado;
 import com.tallerherramientas.tallerprueba.Modelo.Entities.Empleado;
 import com.tallerherramientas.tallerprueba.Repositories.EmpleadoRepository;
 import com.tallerherramientas.tallerprueba.Services.Contratos.EmpleadoDAO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class EmpleadoDAOImp implements EmpleadoDAO {
     @Autowired
-    private EmpleadoRepository empleadoRepository;
+    private final EmpleadoRepository empleadoRepository;
     @Override
     public Empleado guardar(Empleado entidad) {
         return empleadoRepository.save(entidad);

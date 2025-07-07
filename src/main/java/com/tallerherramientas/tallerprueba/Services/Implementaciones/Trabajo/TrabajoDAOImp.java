@@ -8,6 +8,7 @@ import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleClienteTrab
 import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleEmpleadoTrabajoDAO;
 import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleRepuestoTrabajoDAO;
 import com.tallerherramientas.tallerprueba.Services.Contratos.TrabajoDAO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TrabajoDAOImp implements TrabajoDAO {
     @Autowired
-    private TrabajoRepository trabajoRepository;
+    private final TrabajoRepository trabajoRepository;
     @Autowired
     private DetalleClienteTrabajoDAO detalleClienteTrabajoDAO;
     @Autowired

@@ -16,7 +16,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/repuestos")
-public class Controlador {
+public class RepuestoController {
 
     //Declaracion de  tipo de Servicio
     @Autowired

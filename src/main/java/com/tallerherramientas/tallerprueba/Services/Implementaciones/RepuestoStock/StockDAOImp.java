@@ -3,6 +3,7 @@ package com.tallerherramientas.tallerprueba.Services.Implementaciones.RepuestoSt
 import com.tallerherramientas.tallerprueba.Modelo.Entities.Stock;
 import com.tallerherramientas.tallerprueba.Repositories.StockRepository;
 import com.tallerherramientas.tallerprueba.Services.Contratos.StockDAO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class StockDAOImp implements StockDAO {
     @Autowired
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
     @Override
     public Stock guardar(Stock entidad) {

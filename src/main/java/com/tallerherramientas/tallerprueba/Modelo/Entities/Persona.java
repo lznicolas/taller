@@ -1,6 +1,11 @@
 package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.Builder;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -8,19 +13,29 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "personas")
 @Inheritance(strategy = InheritanceType.JOINED)
+@SuperBuilder
 public abstract class Persona implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre no puede estar vacio")
+    @Size(min=7, max=10, message = "El DNI debe de tener entre 7 y 10 digitos")
+    @Pattern(regexp = "^[0-9]+$", message = "El DNI solo puede contener números")
     private String dni;
 
     private String cuilt;
-
+    @NotBlank(message = "El nombre no puede estar vacio")
+    @Size(min=2, max=50, message = "El nombre no puede estar vacio y debe de contener menos de 50 caracteres")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+$", message = "El nombre solo puede contener letras y espacios")
     private String nombre;
 
+    @NotBlank(message = "El apellido no puede estar vacio")
+    @Size(min = 2, max = 50, message = "El apellido no pude estar vacio y debe contener menos de 50 caracteres")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+$", message = "El apellido solo puede contener letras y espacios")
     private String apellido;
 
+    @Pattern(regexp = "^[0-9]+$", message = "El numero de telefono solo puede contener numeros")
     private String telefono;
 
     private Boolean activo;
