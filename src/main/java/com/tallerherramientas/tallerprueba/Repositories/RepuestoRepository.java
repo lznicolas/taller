@@ -10,8 +10,10 @@ import java.util.Optional;
 public interface RepuestoRepository extends JpaRepository<Repuesto,Long> {
     List<Repuesto> findByTitulo(String titulo);
 
-    @Query("SELECT r FROM Repuesto r WHERE LOWER(r.titulo) LIKE %:titulo%")
-    List<Repuesto> findByAproximado(String titulo);
+//    @Query("SELECT r FROM Repuesto r WHERE LOWER(r.titulo) LIKE %:titulo%")
+    //List<Repuesto> findByAproximado(String titulo);
+
+    List<Repuesto> findByTituloContainingIgnoreCase(String titulo);
 
 
     Optional<Repuesto> findByCodigoDeProducto(String codigoDeProducto); // Método para buscar por código

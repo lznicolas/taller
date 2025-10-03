@@ -29,7 +29,7 @@ public class RepuestoDAOImp implements RepuestoDAO {
 
     @Override
     public Repuesto buscarPorAproximado(String titulo) {
-        List<Repuesto> repuestos = repuestoRepository.findByAproximado(titulo);
+        List<Repuesto> repuestos = repuestoRepository.findByTituloContainingIgnoreCase(titulo);
         if (!repuestos.isEmpty()) {
             return repuestos.get(0); // Devuelve el primer resultado
         } else {

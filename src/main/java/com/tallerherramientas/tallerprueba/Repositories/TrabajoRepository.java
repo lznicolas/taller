@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface TrabajoRepository extends JpaRepository<Trabajo,Long> {
     //Trabajo guardarDesdeDTO(TrabajoDTO dto);
 
+
+
 }
