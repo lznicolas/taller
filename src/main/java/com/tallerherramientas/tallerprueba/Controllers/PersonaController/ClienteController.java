@@ -38,7 +38,7 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> crear (@Valid @RequestBody Cliente cliente, BindingResult result){
+    public ResponseEntity<Cliente> guardar (@Valid @RequestBody Cliente cliente, BindingResult result){
         /*if (result.hasErrors()){
             Map<String,String> errors = new HashMap<>();
             result.getFieldErrors().forEach(error -> errors.put(error.getField(),error.getDefaultMessage()));

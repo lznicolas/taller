@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/empleado")
+@RequestMapping("/api/empleados")
 @CrossOrigin(origins = "http://localhost:5173")
 public class EmpleadoController {
     @Autowired
@@ -33,7 +33,7 @@ public class EmpleadoController {
     }
 
     @PostMapping
-    public ResponseEntity<Empleado> crear(@RequestBody Empleado empleado){
+    public ResponseEntity<Empleado> guardar(@RequestBody Empleado empleado){
         Empleado nuevoEmpleado = empleadoDAO.guardar(empleado);
         return new ResponseEntity<>(nuevoEmpleado,HttpStatus.CREATED);
     }
