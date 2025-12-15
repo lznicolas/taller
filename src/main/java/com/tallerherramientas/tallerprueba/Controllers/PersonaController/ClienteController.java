@@ -56,9 +56,14 @@ public class ClienteController {
         }
         existente.setNombre(cliente.getNombre());
         existente.setApellido(cliente.getApellido());
+        existente.setDni(cliente.getDni());
+        existente.setCuilt(cliente.getCuilt());
         existente.setTipoCliente(cliente.getTipoCliente());
         existente.setTelefono(cliente.getTelefono());
         existente.setDireccion(cliente.getDireccion());
+        existente.setObservaciones(cliente.getObservaciones());
+        existente.setLimiteCredito(cliente.getLimiteCredito());
+        existente.setSaldo(cliente.getSaldo());
 
         return ResponseEntity.ok(clienteDAO.guardar(existente));
     }

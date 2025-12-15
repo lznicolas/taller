@@ -37,12 +37,39 @@ public class TrabajoDAOImp implements TrabajoDAO {
         trabajo.setDetalles(dto.getDetalles());
 
         trabajoRepository.save(trabajo);
-        detalleClienteTrabajoDAO.guardarDetalleClienteTrabajo(dto.getClientes(),trabajo);
-        detalleEmpleadoTrabajoDAO.guardarDetalleEmpleadoTrabajo(dto.getEmpleados(),trabajo);
-        detalleRepuestoTrabajoDAO.guardarDetalleRepuestoTrabajo(dto.getRepuestos(),trabajo);
+        detalleClienteTrabajoDAO.guardarDetalleClienteTrabajo(obtenerClientes(dto),trabajo);
+        detalleEmpleadoTrabajoDAO.guardarDetalleEmpleadoTrabajo(obtenerEmpleados(dto),trabajo);
+        detalleRepuestoTrabajoDAO.guardarDetalleRepuestoTrabajo(obtenerRepuestos(dto),trabajo);
 
         return trabajo;
+    }
 
+    @Override
+    public Trabajo actualizarDesdeDTO(Long id, TrabajoDTO dto) {
+        Trabajo trabajo = trabajoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Trabajo no encontrado con ID: " + id));
+
+        trabajo.setTipoTrabajo(TipoTrabajo.valueOf(dto.getTipoTrabajo().toString()));
+        trabajo.setDiagnostico(dto.getDiagnostico());
+        trabajo.setTareasRealizar(dto.getTareasRealizar());
+        trabajo.setDetalles(dto.getDetalles());
+
+        if (trabajo.getDetallesClientes() != null) {
+            trabajo.getDetallesClientes().clear();
+        }
+        if (trabajo.getDetallesEmpleados() != null) {
+            trabajo.getDetallesEmpleados().clear();
+        }
+        if (trabajo.getDetallesRepuestos() != null) {
+            trabajo.getDetallesRepuestos().clear();
+        }
+
+        trabajoRepository.save(trabajo);
+
+        detalleClienteTrabajoDAO.guardarDetalleClienteTrabajo(obtenerClientes(dto), trabajo);
+        detalleEmpleadoTrabajoDAO.guardarDetalleEmpleadoTrabajo(obtenerEmpleados(dto), trabajo);
+        detalleRepuestoTrabajoDAO.guardarDetalleRepuestoTrabajo(obtenerRepuestos(dto), trabajo);
+        return trabajo;
     }
 
     @Override
@@ -92,6 +119,14 @@ public class TrabajoDAOImp implements TrabajoDAO {
 
         return dto;
 
+    }
+
+    @Override
+    public List<TrabajoDetalleDTO> listarDetalles() {
+        List<Trabajo> trabajos = trabajoRepository.findAll();
+        return trabajos.stream()
+                .map(this::convertirDetalle)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -175,4 +210,59 @@ public class TrabajoDAOImp implements TrabajoDAO {
         dto.setClientes(clienteDTOS);
         return dto;
     }
+
+    private TrabajoDetalleDTO convertirDetalle(Trabajo trabajo) {
+        TrabajoDetalleDTO dto = new TrabajoDetalleDTO();
+        dto.setId(trabajo.getId());
+        dto.setTipoTrabajo(trabajo.getTipoTrabajo().toString());
+        dto.setDiagnostico(trabajo.getDiagnostico());
+        dto.setTareasRealizar(trabajo.getTareasRealizar());
+        dto.setDetalles(trabajo.getDetalles());
+        dto.setEstado(trabajo.getEstado() != null ? trabajo.getEstado().toString() : null);
+        dto.setFechaAlta(trabajo.getFechaAlta());
+        dto.setFechaModificacion(trabajo.getFechaModificacion());
+
+        List<DetalleEmpleadoDTO> empleados = trabajo.getDetallesEmpleados() != null ? trabajo.getDetallesEmpleados()
+                .stream()
+                .map(de -> {
+                    DetalleEmpleadoDTO e = new DetalleEmpleadoDTO();
+                    e.setEmpleadoId(de.getEmpleado().getId());
+                    return e;
+                }).toList() : List.of();
+        dto.setEmpleados(empleados);
+
+        List<DetalleClienteDTO> clientes = trabajo.getDetallesClientes() != null ? trabajo.getDetallesClientes()
+                .stream()
+                .map(dc -> {
+                    DetalleClienteDTO c = new DetalleClienteDTO();
+                    c.setClienteId(dc.getCliente().getId());
+                    return c;
+                }).toList() : List.of();
+        dto.setClientes(clientes);
+
+        List<DetalleRepuestoDTO> repuestos = trabajo.getDetallesRepuestos() != null ? trabajo.getDetallesRepuestos()
+                .stream()
+                .map(dr -> {
+                    DetalleRepuestoDTO r = new DetalleRepuestoDTO();
+                    r.setRepuestoId(dr.getRepuesto().getId());
+                    r.setCantidadUsada(dr.getCantidadUsada());
+                    return r;
+                }).toList() : List.of();
+        dto.setRepuestos(repuestos);
+
+        return dto;
+    }
+
+    private List<DetalleClienteDTO> obtenerClientes(TrabajoDTO dto){
+        return dto.getClientes() != null ? dto.getClientes() : List.of();
+    }
+
+    private List<DetalleEmpleadoDTO> obtenerEmpleados(TrabajoDTO dto){
+        return dto.getEmpleados() != null ? dto.getEmpleados() : List.of();
+    }
+
+    private List<DetalleRepuestoDTO> obtenerRepuestos(TrabajoDTO dto){
+        return dto.getRepuestos() != null ? dto.getRepuestos() : List.of();
+    }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/trabajos")
@@ -48,5 +49,37 @@ public class TrabajoController {
            return ResponseEntity.noContent().build();
        }
        return ResponseEntity.ok(trabajos);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<TrabajoDetalleDTO>> listarTrabajos(){
+        List<TrabajoDetalleDTO> trabajos = trabajoDAO.listarDetalles();
+        if(trabajos.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(trabajos);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarTrabajo(@PathVariable Long id, @RequestBody TrabajoDTO trabajoDTO){
+        try{
+            Trabajo actualizado = trabajoDAO.actualizarDesdeDTO(id, trabajoDTO);
+            return ResponseEntity.ok(actualizado);
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Trabajo no encontrado");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar trabajo");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarTrabajo(@PathVariable Long id){
+        Optional<Trabajo> trabajo = trabajoDAO.obtenerPorId(id);
+        if(trabajo.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        trabajoDAO.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 }

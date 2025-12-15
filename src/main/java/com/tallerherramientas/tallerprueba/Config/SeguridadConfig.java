@@ -24,7 +24,7 @@ public class SeguridadConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+/*
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails user = User.builder()
@@ -40,16 +40,24 @@ public class SeguridadConfig {
                 .build();
 
         return new InMemoryUserDetailsManager(user, admin);
-    }
+    }*/
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf-> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/public/**").permitAll()
-                        .requestMatchers("v1/priv").authenticated()
-                        .requestMatchers("v1/admin").hasRole("ADMIN").anyRequest().authenticated()
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/api/repuestos/**",
+                                "/api/clientes/**",
+                                "/api/empleados/**",
+                                "/api/trabajos/**").permitAll()
+                        .requestMatchers("/v1/admin").hasRole("ADMIN")
+                        .requestMatchers("/v1/priv").authenticated()
+                        .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
-                .build();
+                .formLogin(Customizer.withDefaults());
+
+        return http.build();
     }
 }
