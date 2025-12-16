@@ -4,9 +4,11 @@ import com.tallerherramientas.tallerprueba.Modelo.DTO.DetalleRepuestoDTO;
 import com.tallerherramientas.tallerprueba.Modelo.Entities.DetalleRepuestoTrabajo;
 import com.tallerherramientas.tallerprueba.Modelo.Entities.Repuesto;
 import com.tallerherramientas.tallerprueba.Modelo.Entities.Trabajo;
+import com.tallerherramientas.tallerprueba.Modelo.Entities.Stock;
 import com.tallerherramientas.tallerprueba.Repositories.DetalleRepuestoTrabajoRepository;
 import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleRepuestoTrabajoDAO;
 import com.tallerherramientas.tallerprueba.Services.Contratos.RepuestoDAO;
+import com.tallerherramientas.tallerprueba.Services.Contratos.StockDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class DetalleRepuestoTrabajoDAOImp implements DetalleRepuestoTrabajoDAO {
     private final DetalleRepuestoTrabajoRepository detalleRepuestoTrabajoRepository;
     @Autowired
     private RepuestoDAO repuestoDAO;
+    @Autowired
+    private StockDAO stockDAO;
     @Override
     public DetalleRepuestoTrabajo guardar(DetalleRepuestoTrabajo entidad) {
         return detalleRepuestoTrabajoRepository.save(entidad);
@@ -48,11 +52,23 @@ public class DetalleRepuestoTrabajoDAOImp implements DetalleRepuestoTrabajoDAO {
             Repuesto repuesto = repuestoDAO.obtenerPorId(repuestoDTO.getRepuestoId())
                     .orElseThrow(()->new RuntimeException("Repuesto no encontrado con el ID: "+repuestoDTO.getRepuestoId()));
 
+            Integer cantidadSolicitada = repuestoDTO.getCantidadUsada() != null ? repuestoDTO.getCantidadUsada() : 0;
+            if (cantidadSolicitada < 0) {
+                throw new RuntimeException("La cantidad usada no puede ser negativa para el repuesto " + repuesto.getTitulo());
+            }
+            Stock stock = stockDAO.obtenerPorId(repuesto.getId()).orElse(new Stock(repuesto, 0));
+            int disponible = stock.getCantidad() != null ? stock.getCantidad() : 0;
+            if (cantidadSolicitada > disponible) {
+                throw new RuntimeException("Stock insuficiente para '" + repuesto.getTitulo() + "'. Disponible: " + disponible);
+            }
+            stock.setCantidad(disponible - cantidadSolicitada);
+            stockDAO.guardar(stock);
+
             DetalleRepuestoTrabajo detalleRepuestoTrabajo= new DetalleRepuestoTrabajo();
 
             detalleRepuestoTrabajo.setRepuesto(repuesto);
             detalleRepuestoTrabajo.setTrabajo(trabajo);
-            detalleRepuestoTrabajo.setCantidadUsada(repuestoDTO.getCantidadUsada());
+            detalleRepuestoTrabajo.setCantidadUsada(cantidadSolicitada);
             detalleRepuestoTrabajoRepository.save(detalleRepuestoTrabajo);
         }
     }

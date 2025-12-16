@@ -1,5 +1,6 @@
 package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,6 +10,7 @@ public class DetalleRepuestoTrabajo {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore // previene ciclos al serializar trabajos/repuestos
     private Trabajo trabajo;
 
     @ManyToOne

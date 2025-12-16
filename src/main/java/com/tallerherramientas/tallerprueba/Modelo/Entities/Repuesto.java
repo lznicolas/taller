@@ -1,5 +1,6 @@
 package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tallerherramientas.tallerprueba.Modelo.Enums.Ubicacion;
 import jakarta.persistence.*;
@@ -25,6 +26,7 @@ public class Repuesto {
         private Ubicacion ubicacion;
 
         @OneToMany(mappedBy = "repuesto")
+        @JsonIgnore // evitamos recursividad al serializar repuestos
         private List<DetalleRepuestoTrabajo> detalllesTrabajo;
         public Repuesto() {
         }
@@ -96,4 +98,3 @@ public class Repuesto {
                         '}';
         }
 }
-

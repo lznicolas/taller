@@ -23,7 +23,7 @@ public class StockDAOImp implements StockDAO {
 
     @Override
     public List<Stock> listar() {
-        return null;
+        return stockRepository.findAll();
     }
 
     @Override
@@ -33,6 +33,6 @@ public class StockDAOImp implements StockDAO {
 
     @Override
     public void eliminar(Long aLong) {
-
+        stockRepository.deleteById(aLong);
     }
 }

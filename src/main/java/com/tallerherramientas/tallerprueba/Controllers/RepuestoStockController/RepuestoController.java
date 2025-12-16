@@ -139,7 +139,8 @@ public class RepuestoController {
         Optional<Stock> stockExistence = stockDAO.obtenerPorId(repuesto.getId());
 
         Stock stock = stockExistence.orElse(new Stock(repuesto,0));
-        stock.setCantidad(stock.getCantidad() + stockRequest.getCantidad());
+        // el cliente envía la cantidad final deseada, no el incremento
+        stock.setCantidad(stockRequest.getCantidad());
         stockDAO.guardar(stock);
         return new ResponseEntity<>(stock, HttpStatus.OK);
     }

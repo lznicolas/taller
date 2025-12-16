@@ -8,6 +8,8 @@ import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleClienteTrab
 import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleEmpleadoTrabajoDAO;
 import com.tallerherramientas.tallerprueba.Services.Contratos.DetalleRepuestoTrabajoDAO;
 import com.tallerherramientas.tallerprueba.Services.Contratos.TrabajoDAO;
+import com.tallerherramientas.tallerprueba.Services.Contratos.StockDAO;
+import com.tallerherramientas.tallerprueba.Repositories.DetalleRepuestoTrabajoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,10 @@ public class TrabajoDAOImp implements TrabajoDAO {
     private DetalleEmpleadoTrabajoDAO detalleEmpleadoTrabajoDAO;
     @Autowired
     private DetalleRepuestoTrabajoDAO detalleRepuestoTrabajoDAO;
+    @Autowired
+    private StockDAO stockDAO;
+    @Autowired
+    private DetalleRepuestoTrabajoRepository detalleRepuestoTrabajoRepository;
 
     @Override
     public Trabajo guardarDesdeDTO(TrabajoDTO dto) {
@@ -40,6 +46,7 @@ public class TrabajoDAOImp implements TrabajoDAO {
         detalleClienteTrabajoDAO.guardarDetalleClienteTrabajo(obtenerClientes(dto),trabajo);
         detalleEmpleadoTrabajoDAO.guardarDetalleEmpleadoTrabajo(obtenerEmpleados(dto),trabajo);
         detalleRepuestoTrabajoDAO.guardarDetalleRepuestoTrabajo(obtenerRepuestos(dto),trabajo);
+        trabajo.setDetallesRepuestos(detalleRepuestoTrabajoRepository.findByTrabajoId(trabajo.getId()));
 
         return trabajo;
     }
@@ -61,6 +68,13 @@ public class TrabajoDAOImp implements TrabajoDAO {
             trabajo.getDetallesEmpleados().clear();
         }
         if (trabajo.getDetallesRepuestos() != null) {
+            // Reponemos stock antes de limpiar detalles
+            trabajo.getDetallesRepuestos().forEach(detalle -> {
+                Stock stock = stockDAO.obtenerPorId(detalle.getRepuesto().getId()).orElse(new Stock(detalle.getRepuesto(), 0));
+                int disponible = stock.getCantidad() != null ? stock.getCantidad() : 0;
+                stock.setCantidad(disponible + (detalle.getCantidadUsada() != null ? detalle.getCantidadUsada() : 0));
+                stockDAO.guardar(stock);
+            });
             trabajo.getDetallesRepuestos().clear();
         }
 
@@ -69,6 +83,7 @@ public class TrabajoDAOImp implements TrabajoDAO {
         detalleClienteTrabajoDAO.guardarDetalleClienteTrabajo(obtenerClientes(dto), trabajo);
         detalleEmpleadoTrabajoDAO.guardarDetalleEmpleadoTrabajo(obtenerEmpleados(dto), trabajo);
         detalleRepuestoTrabajoDAO.guardarDetalleRepuestoTrabajo(obtenerRepuestos(dto), trabajo);
+        trabajo.setDetallesRepuestos(detalleRepuestoTrabajoRepository.findByTrabajoId(trabajo.getId()));
         return trabajo;
     }
 
@@ -107,7 +122,7 @@ public class TrabajoDAOImp implements TrabajoDAO {
         dto.setClientes(clientes);
 
         // Convertir repuestos
-        List<DetalleRepuestoDTO> repuestos = trabajo.getDetallesRepuestos()
+        List<DetalleRepuestoDTO> repuestos = obtenerDetallesRepuestos(trabajo)
                 .stream()
                 .map(dr -> {
                     DetalleRepuestoDTO r = new DetalleRepuestoDTO();
@@ -190,7 +205,7 @@ public class TrabajoDAOImp implements TrabajoDAO {
         dto.setEmpleados(empleadoDTOS);
 
         //repuestos
-        List<DetalleRepuestoDTO> repuestoDTOS = trabajo.getDetallesRepuestos().stream()
+        List<DetalleRepuestoDTO> repuestoDTOS = obtenerDetallesRepuestos(trabajo).stream()
                 .map(detalleRepuestoTrabajo -> {
                     DetalleRepuestoDTO detalleRepuestoDTO = new DetalleRepuestoDTO();
                     detalleRepuestoDTO.setRepuestoId(detalleRepuestoTrabajo.getRepuesto().getId());
@@ -240,7 +255,7 @@ public class TrabajoDAOImp implements TrabajoDAO {
                 }).toList() : List.of();
         dto.setClientes(clientes);
 
-        List<DetalleRepuestoDTO> repuestos = trabajo.getDetallesRepuestos() != null ? trabajo.getDetallesRepuestos()
+        List<DetalleRepuestoDTO> repuestos = obtenerDetallesRepuestos(trabajo) != null ? obtenerDetallesRepuestos(trabajo)
                 .stream()
                 .map(dr -> {
                     DetalleRepuestoDTO r = new DetalleRepuestoDTO();
@@ -265,4 +280,14 @@ public class TrabajoDAOImp implements TrabajoDAO {
         return dto.getRepuestos() != null ? dto.getRepuestos() : List.of();
     }
 
+    private List<DetalleRepuestoTrabajo> obtenerDetallesRepuestos(Trabajo trabajo){
+        if (trabajo == null) {
+            return List.of();
+        }
+        List<DetalleRepuestoTrabajo> detalles = trabajo.getDetallesRepuestos();
+        if (detalles == null || detalles.isEmpty()) {
+            return detalleRepuestoTrabajoRepository.findByTrabajoId(trabajo.getId());
+        }
+        return detalles;
+    }
 }
