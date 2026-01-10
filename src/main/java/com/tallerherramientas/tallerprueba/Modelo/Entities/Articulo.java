@@ -2,13 +2,16 @@ package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tallerherramientas.tallerprueba.Modelo.Enums.Categoria;
 import com.tallerherramientas.tallerprueba.Modelo.Enums.Ubicacion;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-public class Repuesto {
+@Table(name = "articulos")
+public class Articulo {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,14 +27,20 @@ public class Repuesto {
         @JsonProperty("ubicacion")
         @Enumerated(EnumType.STRING)
         private Ubicacion ubicacion;
+        @JsonProperty("precioUnitario")
+        @Column(name = "precio_unitario")
+        private BigDecimal precioUnitario;
+        @JsonProperty("categoria")
+        @Enumerated(EnumType.STRING)
+        private Categoria categoria;
 
-        @OneToMany(mappedBy = "repuesto")
-        @JsonIgnore // evitamos recursividad al serializar repuestos
-        private List<DetalleRepuestoTrabajo> detalllesTrabajo;
-        public Repuesto() {
+        @OneToMany(mappedBy = "articulo")
+        @JsonIgnore // evitamos recursividad al serializar articulos
+        private List<DetalleArticuloTrabajo> detalllesTrabajo;
+        public Articulo() {
         }
 
-        public Repuesto(Long id, String codigoDeProducto, String titulo) {
+        public Articulo(Long id, String codigoDeProducto, String titulo) {
                 this.id = id;
                 this.codigoDeProducto = codigoDeProducto;
                 this.titulo = titulo;
@@ -78,21 +87,39 @@ public class Repuesto {
                 this.ubicacion = ubicacion;
         }
 
-        public List<DetalleRepuestoTrabajo> getDetalllesTrabajo() {
+        public BigDecimal getPrecioUnitario() {
+                return precioUnitario;
+        }
+
+        public void setPrecioUnitario(BigDecimal precioUnitario) {
+                this.precioUnitario = precioUnitario;
+        }
+
+        public Categoria getCategoria() {
+                return categoria;
+        }
+
+        public void setCategoria(Categoria categoria) {
+                this.categoria = categoria;
+        }
+
+        public List<DetalleArticuloTrabajo> getDetalllesTrabajo() {
                 return detalllesTrabajo;
         }
 
-        public void setDetalllesTrabajo(List<DetalleRepuestoTrabajo> detalllesTrabajo) {
+        public void setDetalllesTrabajo(List<DetalleArticuloTrabajo> detalllesTrabajo) {
                 this.detalllesTrabajo = detalllesTrabajo;
         }
 
         @Override
         public String toString() {
-                return "Repuesto{" +
+                return "Articulo{" +
                         "id=" + id +
                         ", Codigo de producto='" + codigoDeProducto + '\'' +
                         ", titulo='" + titulo + '\'' +
                         ", descripcion='" + descripcion + '\'' +
+                        ", precioUnitario=" + precioUnitario +
+                        ", categoria=" + categoria +
                         ", ubicacion=" + ubicacion +
                         ", detalllesTrabajo=" + detalllesTrabajo +
                         '}';

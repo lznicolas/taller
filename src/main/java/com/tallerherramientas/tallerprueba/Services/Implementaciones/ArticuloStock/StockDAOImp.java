@@ -1,4 +1,4 @@
-package com.tallerherramientas.tallerprueba.Services.Implementaciones.RepuestoStock;
+package com.tallerherramientas.tallerprueba.Services.Implementaciones.ArticuloStock;
 
 import com.tallerherramientas.tallerprueba.Modelo.Entities.Stock;
 import com.tallerherramientas.tallerprueba.Repositories.StockRepository;
@@ -28,7 +28,7 @@ public class StockDAOImp implements StockDAO {
 
     @Override
     public Optional<Stock> obtenerPorId(Long aLong) {
-        return stockRepository.findByRepuestoId(aLong);
+        return stockRepository.findByArticuloId(aLong);
     }
 
     @Override

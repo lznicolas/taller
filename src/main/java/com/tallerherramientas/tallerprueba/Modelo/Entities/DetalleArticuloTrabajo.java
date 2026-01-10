@@ -4,27 +4,29 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
-public class DetalleRepuestoTrabajo {
+@Table(name = "detalle_articulo_trabajo")
+public class DetalleArticuloTrabajo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JsonIgnore // previene ciclos al serializar trabajos/repuestos
+    @JsonIgnore // previene ciclos al serializar trabajos/articulos
     private Trabajo trabajo;
 
     @ManyToOne
-    private Repuesto repuesto;
+    @JoinColumn(name = "articulo_id")
+    private Articulo articulo;
 
     private Integer cantidadUsada;
 
-    public DetalleRepuestoTrabajo() {
+    public DetalleArticuloTrabajo() {
     }
 
-    public DetalleRepuestoTrabajo(Long id, Trabajo trabajo, Repuesto repuesto, Integer cantidadUsada) {
+    public DetalleArticuloTrabajo(Long id, Trabajo trabajo, Articulo articulo, Integer cantidadUsada) {
         this.id = id;
         this.trabajo = trabajo;
-        this.repuesto = repuesto;
+        this.articulo = articulo;
         this.cantidadUsada = cantidadUsada;
     }
 
@@ -44,12 +46,12 @@ public class DetalleRepuestoTrabajo {
         this.trabajo = trabajo;
     }
 
-    public Repuesto getRepuesto() {
-        return repuesto;
+    public Articulo getArticulo() {
+        return articulo;
     }
 
-    public void setRepuesto(Repuesto repuesto) {
-        this.repuesto = repuesto;
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
     }
 
     public Integer getCantidadUsada() {
@@ -62,8 +64,8 @@ public class DetalleRepuestoTrabajo {
 
     @Override
     public String toString() {
-        return "DetalleRepuestoTrabajo{" +
-                ", repuesto=" + (repuesto != null ? repuesto.getTitulo(): "null" )+
+        return "DetalleArticuloTrabajo{" +
+                ", articulo=" + (articulo != null ? articulo.getTitulo(): "null" )+
                 ", cantidadUsada=" + cantidadUsada +
                 '}';
     }

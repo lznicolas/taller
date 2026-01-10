@@ -1,15 +1,15 @@
 package com.tallerherramientas.tallerprueba.Modelo.DTO;
 
-public class DetalleRepuestoDTO {
-    private Long repuestoId;
+public class DetalleArticuloDTO {
+    private Long articuloId;
     private Integer cantidadUsada;
 
-    public Long getRepuestoId() {
-        return repuestoId;
+    public Long getArticuloId() {
+        return articuloId;
     }
 
-    public void setRepuestoId(Long repuestoId) {
-        this.repuestoId = repuestoId;
+    public void setArticuloId(Long articuloId) {
+        this.articuloId = articuloId;
     }
 
     public Integer getCantidadUsada() {

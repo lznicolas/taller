@@ -21,7 +21,7 @@ public class TestRunner {
             cliente.setNombre("Nicolas");
             cliente.setApellido("Lamas");
             cliente.setDni("38777888");
-            cliente.setCuilt("20-38777888-7");
+            cliente.setCuil("20-38777888-7");
             cliente.setTelefono("03816345678");
             cliente.setTipoCliente(TipoCliente.FRECUENTE);
 
@@ -29,35 +29,35 @@ public class TestRunner {
             Empleado emp1= new Empleado(null,"38555333","27-38555333-0","Julia","Morales",new BigDecimal("800000"), Especialidad.RECTIFICADOR);
             Empleado emp2= new Empleado(null,"38111222","20-38111222-0","Javier","Montalvo",new BigDecimal("20000"),Especialidad.MANTENIMIENTO );
 
-            Repuesto repuesto1 = new Repuesto();
-            repuesto1.setCodigoDeProducto("AAA001");
-            repuesto1.setTitulo("Piston");
-            repuesto1.setDescripcion("Piston del motor");
-            repuesto1.setUbicacion(Ubicacion.BAJA);
+            Articulo articulo1 = new Articulo();
+            articulo1.setCodigoDeProducto("AAA001");
+            articulo1.setTitulo("Piston");
+            articulo1.setDescripcion("Piston del motor");
+            articulo1.setUbicacion(Ubicacion.BAJA);
 
-            Repuesto repuesto2 = new Repuesto();
-            repuesto2.setCodigoDeProducto("BBB002");
-            repuesto2.setTitulo("Valvula");
-            repuesto2.setDescripcion("Valvula de adminsion");
-            repuesto2.setUbicacion(Ubicacion.BAJA);
+            Articulo articulo2 = new Articulo();
+            articulo2.setCodigoDeProducto("BBB002");
+            articulo2.setTitulo("Valvula");
+            articulo2.setDescripcion("Valvula de adminsion");
+            articulo2.setUbicacion(Ubicacion.BAJA);
 
             //trabajo
             Trabajo trabajo = new Trabajo();
-            trabajo.setTipoTrabajo(TipoTrabajo.RECTIFICAION);
+            trabajo.setTipoTrabajo(TipoTrabajo.RECTIFICACION);
             trabajo.setDiagnostico("Motor sin compresion");
             trabajo.setTareasRealizar("Reemplazo de pistones");
             trabajo.setDetalles("Se entrega con Pruebas de compresion");
             trabajo.setEstado(EstadoTrabajo.EN_PROGRESO);
 
-            //Detalles de repuestos
-            DetalleRepuestoTrabajo dr1 = new DetalleRepuestoTrabajo();
+            //Detalles de articulos
+            DetalleArticuloTrabajo dr1 = new DetalleArticuloTrabajo();
             dr1.setTrabajo(trabajo);
-            dr1.setRepuesto(repuesto1);
+            dr1.setArticulo(articulo1);
             dr1.setCantidadUsada(2);
 
-            DetalleRepuestoTrabajo dr2 = new DetalleRepuestoTrabajo();
+            DetalleArticuloTrabajo dr2 = new DetalleArticuloTrabajo();
             dr2.setTrabajo(trabajo);
-            dr2.setRepuesto(repuesto2);
+            dr2.setArticulo(articulo2);
             dr2.setCantidadUsada(4);
 
             //detalles de empleados
@@ -75,7 +75,7 @@ public class TestRunner {
             dc1.setCliente(cliente);
 
             //Asociamos al trabajo
-            trabajo.setDetallesRepuestos(Arrays.asList(dr1,dr2));
+            trabajo.setDetallesArticulos(Arrays.asList(dr1,dr2));
             trabajo.setDetallesEmpleados(Arrays.asList(de1,de2));
             trabajo.setDetallesClientes(Collections.singletonList(dc1));
 

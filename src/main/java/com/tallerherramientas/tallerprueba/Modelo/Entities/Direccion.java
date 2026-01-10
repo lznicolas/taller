@@ -1,7 +1,10 @@
 package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
+import jakarta.persistence.Embeddable;
+
 import java.io.Serializable;
 
+@Embeddable
 public class Direccion implements Serializable {
     private String calle;
     private String numero;
@@ -9,6 +12,8 @@ public class Direccion implements Serializable {
     private String dpto;
     private String piso;
     private String localidad;
+    private String provincia;
+    private String pais;
 
     public Direccion() {
     }
@@ -65,5 +70,21 @@ public class Direccion implements Serializable {
 
     public void setLocalidad(String localidad) {
         this.localidad = localidad;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 }

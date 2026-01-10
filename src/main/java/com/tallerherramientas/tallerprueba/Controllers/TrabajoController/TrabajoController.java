@@ -2,6 +2,8 @@ package com.tallerherramientas.tallerprueba.Controllers.TrabajoController;
 
 import com.tallerherramientas.tallerprueba.Modelo.DTO.TrabajoDTO;
 import com.tallerherramientas.tallerprueba.Modelo.DTO.TrabajoDetalleDTO;
+import com.tallerherramientas.tallerprueba.Modelo.DTO.ReporteTrabajoDTO;
+import com.tallerherramientas.tallerprueba.Modelo.DTO.CostoManoDeObraDTO;
 import com.tallerherramientas.tallerprueba.Modelo.Entities.*;
 import com.tallerherramientas.tallerprueba.Services.Contratos.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,26 @@ public class TrabajoController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(trabajos);
+    }
+
+    @GetMapping("/{id}/reporte")
+    public ResponseEntity<ReporteTrabajoDTO> obtenerReporte(@PathVariable Long id) {
+        try {
+            ReporteTrabajoDTO reporte = trabajoDAO.generarReporte(id);
+            return ResponseEntity.ok(reporte);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PatchMapping("/{id}/costo-mano-obra")
+    public ResponseEntity<?> actualizarCostoManoDeObra(@PathVariable Long id, @RequestBody CostoManoDeObraDTO dto) {
+        try {
+            Trabajo actualizado = trabajoDAO.actualizarCostoManoDeObra(id, dto.getCostoManoDeObra());
+            return ResponseEntity.ok(actualizado.getCostoManoDeObra());
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")

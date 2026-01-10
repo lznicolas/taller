@@ -1,5 +1,7 @@
 package com.tallerherramientas.tallerprueba.Modelo.Entities;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -24,7 +26,10 @@ public abstract class Persona implements Serializable {
     @Pattern(regexp = "^[0-9]+$", message = "El DNI solo puede contener números")
     private String dni;
 
-    private String cuilt;
+    @JsonProperty("cuil")
+    @JsonAlias({"cuilt"})
+    @Column(name = "cuilt")
+    private String cuil;
     @NotBlank(message = "El nombre no puede estar vacio")
     @Size(min=2, max=50, message = "El nombre no puede estar vacio y debe de contener menos de 50 caracteres")
     @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+$", message = "El nombre solo puede contener letras y espacios")
@@ -53,10 +58,10 @@ public abstract class Persona implements Serializable {
     public Persona() {
     }
 
-    public Persona(Long id, String dni, String cuilt, String nombre, String apellido) {
+    public Persona(Long id, String dni, String cuil, String nombre, String apellido) {
         this.id = id;
         this.dni = dni;
-        this.cuilt = cuilt;
+        this.cuil = cuil;
         this.nombre = nombre;
         this.apellido = apellido;
     }
@@ -77,12 +82,12 @@ public abstract class Persona implements Serializable {
         this.dni = dni;
     }
 
-    public String getCuilt() {
-        return cuilt;
+    public String getCuil() {
+        return cuil;
     }
 
-    public void setCuilt(String cuilt) {
-        this.cuilt = cuilt;
+    public void setCuil(String cuil) {
+        this.cuil = cuil;
     }
 
     public String getNombre() {

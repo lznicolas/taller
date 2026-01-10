@@ -1,18 +1,41 @@
 package com.tallerherramientas.tallerprueba.Modelo.DTO;
 
 import com.tallerherramientas.tallerprueba.Modelo.Enums.TipoTrabajo;
+import com.tallerherramientas.tallerprueba.Modelo.DTO.DetalleArticuloDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class TrabajoDTO {
+    private Long id;
+    private Long codigoPublico;
     private TipoTrabajo tipoTrabajo;
     private String diagnostico;
     private String tareasRealizar;
     private String detalles;
+    private BigDecimal costoManoDeObra;
+    private String estado;
+    private Long trabajoAnteriorId;
 
     private List<DetalleEmpleadoDTO> empleados;
-    private List<DetalleRepuestoDTO> repuestos;
+    private List<DetalleArticuloDTO> articulos;
     private List<DetalleClienteDTO> clientes;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getCodigoPublico() {
+        return codigoPublico;
+    }
+
+    public void setCodigoPublico(Long codigoPublico) {
+        this.codigoPublico = codigoPublico;
+    }
 
     public TipoTrabajo getTipoTrabajo() {
         return tipoTrabajo;
@@ -46,6 +69,30 @@ public class TrabajoDTO {
         this.detalles = detalles;
     }
 
+    public BigDecimal getCostoManoDeObra() {
+        return costoManoDeObra;
+    }
+
+    public void setCostoManoDeObra(BigDecimal costoManoDeObra) {
+        this.costoManoDeObra = costoManoDeObra;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Long getTrabajoAnteriorId() {
+        return trabajoAnteriorId;
+    }
+
+    public void setTrabajoAnteriorId(Long trabajoAnteriorId) {
+        this.trabajoAnteriorId = trabajoAnteriorId;
+    }
+
     public List<DetalleEmpleadoDTO> getEmpleados() {
         return empleados;
     }
@@ -54,12 +101,12 @@ public class TrabajoDTO {
         this.empleados = empleados;
     }
 
-    public List<DetalleRepuestoDTO> getRepuestos() {
-        return repuestos;
+    public List<DetalleArticuloDTO> getArticulos() {
+        return articulos;
     }
 
-    public void setRepuestos(List<DetalleRepuestoDTO> repuestos) {
-        this.repuestos = repuestos;
+    public void setArticulos(List<DetalleArticuloDTO> articulos) {
+        this.articulos = articulos;
     }
 
     public List<DetalleClienteDTO> getClientes() {

@@ -8,19 +8,19 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
-    @JoinColumn(name = "repuesto_id", nullable = false,unique = true)
-    private Repuesto repuesto;
+    @JoinColumn(name = "articulo_id", nullable = false,unique = true)
+    private Articulo articulo;
     private Integer cantidad;
     public Stock(){}
 
-    public Stock(Long id,Repuesto repuesto, Integer cantidad){
+    public Stock(Long id,Articulo articulo, Integer cantidad){
         this.id = id;
-        this.repuesto = repuesto;
+        this.articulo = articulo;
         this.cantidad = cantidad;
     }
 
-    public Stock(Repuesto repuesto, Integer cantidad) {
-        this.repuesto = repuesto;
+    public Stock(Articulo articulo, Integer cantidad) {
+        this.articulo = articulo;
         this.cantidad = cantidad;
     }
 
@@ -32,12 +32,12 @@ public class Stock {
         this.id = id;
     }
 
-    public Repuesto getRepuesto() {
-        return repuesto;
+    public Articulo getArticulo() {
+        return articulo;
     }
 
-    public void setRepuesto(Repuesto repuesto) {
-        this.repuesto = repuesto;
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
     }
 
     public Integer getCantidad() {

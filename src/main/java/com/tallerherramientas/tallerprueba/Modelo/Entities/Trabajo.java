@@ -4,6 +4,7 @@ import com.tallerherramientas.tallerprueba.Modelo.Enums.EstadoTrabajo;
 import com.tallerherramientas.tallerprueba.Modelo.Enums.TipoTrabajo;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,8 +14,16 @@ public class Trabajo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "codigo_publico", unique = true, nullable = false)
+    private Long codigoPublico;
     @Enumerated(EnumType.STRING)
     private TipoTrabajo tipoTrabajo;
+    @Enumerated(EnumType.STRING)
+    private EstadoTrabajo estado;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trabajo_anterior_id")
+    private Trabajo trabajoAnterior;
 
     @OneToMany(mappedBy = "trabajo",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleEmpleadoTrabajo> detallesEmpleados;
@@ -23,14 +32,15 @@ public class Trabajo {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;*/
     @OneToMany(mappedBy = "trabajo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DetalleRepuestoTrabajo> detallesRepuestos;
+    private List<DetalleArticuloTrabajo> detallesArticulos;
     private String diagnostico;//Como llego el motor/pieza/etc
 
     private String tareasRealizar;//Tareas a realizar
 
-    private String detalles;//Como se entrega y cosas a tener en cuenta
+    @Column(name = "costo_mano_obra", precision = 12, scale = 2)
+    private BigDecimal costoManoDeObra;
 
-    private EstadoTrabajo estado;
+    private String detalles;//Como se entrega y cosas a tener en cuenta
 
     //duda
     @OneToMany(mappedBy = "trabajo",cascade = CascadeType.ALL,orphanRemoval = true)
@@ -67,6 +77,22 @@ public class Trabajo {
         this.tipoTrabajo = tipoTrabajo;
     }
 
+    public Long getCodigoPublico() {
+        return codigoPublico;
+    }
+
+    public void setCodigoPublico(Long codigoPublico) {
+        this.codigoPublico = codigoPublico;
+    }
+
+    public Trabajo getTrabajoAnterior() {
+        return trabajoAnterior;
+    }
+
+    public void setTrabajoAnterior(Trabajo trabajoAnterior) {
+        this.trabajoAnterior = trabajoAnterior;
+    }
+
     public List<DetalleEmpleadoTrabajo> getDetallesEmpleados() {
         return detallesEmpleados;
     }
@@ -91,6 +117,14 @@ public class Trabajo {
         this.tareasRealizar = tareasRealizar;
     }
 
+    public BigDecimal getCostoManoDeObra() {
+        return costoManoDeObra;
+    }
+
+    public void setCostoManoDeObra(BigDecimal costoManoDeObra) {
+        this.costoManoDeObra = costoManoDeObra;
+    }
+
     public String getDetalles() {
         return detalles;
     }
@@ -109,12 +143,12 @@ public class Trabajo {
         this.fechaModificacion = LocalDateTime.now();
     }
 
-    public List<DetalleRepuestoTrabajo> getDetallesRepuestos() {
-        return detallesRepuestos;
+    public List<DetalleArticuloTrabajo> getDetallesArticulos() {
+        return detallesArticulos;
     }
 
-    public void setDetallesRepuestos(List<DetalleRepuestoTrabajo> detallesRepuestos) {
-        this.detallesRepuestos = detallesRepuestos;
+    public void setDetallesArticulos(List<DetalleArticuloTrabajo> detallesArticulos) {
+        this.detallesArticulos = detallesArticulos;
     }
 
     public EstadoTrabajo getEstado() {
@@ -156,10 +190,11 @@ public class Trabajo {
                 ", tipoTrabajo=" + tipoTrabajo +
                 ", diagnostico='" + diagnostico + '\'' +
                 ", tareasRealizar='" + tareasRealizar + '\'' +
+                ", costoManoDeObra=" + costoManoDeObra +
                 ", detalles='" + detalles + '\'' +
                 ", fechaAlta=" + fechaAlta +
                 ", fechaModificacion=" + fechaModificacion +
-                ", detallesRepuestos=" + (detallesRepuestos != null ? detallesRepuestos.size() + " repuestos" : "sin repuestos") +
+                ", detallesArticulos=" + (detallesArticulos != null ? detallesArticulos.size() + " articulos" : "sin articulos") +
                 ", detallesEmpleados=" + (detallesEmpleados != null ? detallesEmpleados.size() + " empleados" : "sin empleados") +
                 ", detallesClientes=" + (detallesClientes != null ? detallesClientes.size() + " clientes" : "sin clientes") +
                 '}';

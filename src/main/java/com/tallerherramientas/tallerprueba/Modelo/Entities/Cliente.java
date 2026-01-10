@@ -28,8 +28,8 @@ public class Cliente extends Persona{
     public Cliente() {
     }
 
-    public Cliente(Long id, String dni, String cuilt, String nombre, String apellido, TipoCliente tipoCliente) {
-        super(id, dni, cuilt, nombre, apellido);
+    public Cliente(Long id, String dni, String cuil, String nombre, String apellido, TipoCliente tipoCliente) {
+        super(id, dni, cuil, nombre, apellido);
         this.tipoCliente = tipoCliente;
     }
 

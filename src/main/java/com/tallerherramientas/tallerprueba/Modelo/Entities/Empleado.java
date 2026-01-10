@@ -28,8 +28,8 @@ public class Empleado extends Persona{
     public Empleado() {
     }
 
-    public Empleado(Long id, String dni, String cuilt, String nombre, String apellido, BigDecimal sueldo, Especialidad especialidad) {
-        super(id, dni, cuilt, nombre, apellido);
+    public Empleado(Long id, String dni, String cuil, String nombre, String apellido, BigDecimal sueldo, Especialidad especialidad) {
+        super(id, dni, cuil, nombre, apellido);
         this.sueldo = sueldo;
         this.especialidad = especialidad;
     }

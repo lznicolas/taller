@@ -57,7 +57,7 @@ public class ClienteController {
         existente.setNombre(cliente.getNombre());
         existente.setApellido(cliente.getApellido());
         existente.setDni(cliente.getDni());
-        existente.setCuilt(cliente.getCuilt());
+        existente.setCuil(cliente.getCuil());
         existente.setTipoCliente(cliente.getTipoCliente());
         existente.setTelefono(cliente.getTelefono());
         existente.setDireccion(cliente.getDireccion());
