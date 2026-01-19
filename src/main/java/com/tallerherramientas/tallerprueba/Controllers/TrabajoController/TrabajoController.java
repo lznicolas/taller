@@ -77,6 +77,8 @@ public class TrabajoController {
         try {
             Trabajo actualizado = trabajoDAO.actualizarCostoManoDeObra(id, dto.getCostoManoDeObra());
             return ResponseEntity.ok(actualizado.getCostoManoDeObra());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

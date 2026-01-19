@@ -208,6 +208,7 @@ public class TrabajoDAOImp implements TrabajoDAO {
         reporte.setTrabajoId(trabajo.getId());
         reporte.setCodigoPublico(trabajo.getCodigoPublico());
         reporte.setTipoTrabajo(trabajo.getTipoTrabajo() != null ? trabajo.getTipoTrabajo().toString() : null);
+        reporte.setEstado(trabajo.getEstado() != null ? trabajo.getEstado().toString() : null);
         reporte.setDiagnostico(trabajo.getDiagnostico());
         reporte.setTareasRealizar(trabajo.getTareasRealizar());
         reporte.setCostoManoDeObra(trabajo.getCostoManoDeObra());
@@ -219,11 +220,13 @@ public class TrabajoDAOImp implements TrabajoDAO {
                         .map(DetalleEmpleadoTrabajo::getEmpleado)
                         .toList()
         ));
-        reporte.setCliente(formatearPersonas(
-                clientes.stream()
-                        .map(DetalleClienteTrabajo::getCliente)
-                        .toList()
-        ));
+        List<Cliente> clientesLista = clientes.stream()
+                .map(DetalleClienteTrabajo::getCliente)
+                .toList();
+        reporte.setCliente(formatearPersonas(clientesLista));
+        Cliente clientePrincipal = clientesLista.isEmpty() ? null : clientesLista.get(0);
+        reporte.setTelefonoCliente(clientePrincipal != null ? clientePrincipal.getTelefono() : null);
+        reporte.setDireccionCliente(formatearDireccion(clientePrincipal != null ? clientePrincipal.getDireccion() : null));
 
         List<ReporteArticuloDTO> articulos = detallesArticulos.stream()
                 .map(detalle -> {
@@ -259,6 +262,9 @@ public class TrabajoDAOImp implements TrabajoDAO {
     public Trabajo actualizarCostoManoDeObra(Long trabajoId, BigDecimal costoManoDeObra) {
         Trabajo trabajo = trabajoRepository.findById(trabajoId)
                 .orElseThrow(() -> new RuntimeException("Trabajo no encontrado con ID: " + trabajoId));
+        if (trabajo.getEstado() != EstadoTrabajo.TERMINADO) {
+            throw new IllegalStateException("El trabajo debe estar TERMINADO para actualizar el costo de mano de obra.");
+        }
         trabajo.setCostoManoDeObra(costoManoDeObra);
         return trabajoRepository.save(trabajo);
     }
@@ -464,5 +470,40 @@ public class TrabajoDAOImp implements TrabajoDAO {
         return personas.stream()
                 .map(persona -> String.format("%s %s", persona.getNombre(), persona.getApellido()).trim())
                 .collect(Collectors.joining(", "));
+    }
+
+    private String formatearDireccion(Direccion direccion) {
+        if (direccion == null) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        if (direccion.getCalle() != null && !direccion.getCalle().isBlank()) {
+            sb.append(direccion.getCalle());
+        }
+        if (direccion.getNumero() != null && !direccion.getNumero().isBlank()) {
+            if (!sb.isEmpty()) {
+                sb.append(" ");
+            }
+            sb.append(direccion.getNumero());
+        }
+        if (direccion.getLocalidad() != null && !direccion.getLocalidad().isBlank()) {
+            if (!sb.isEmpty()) {
+                sb.append(", ");
+            }
+            sb.append(direccion.getLocalidad());
+        }
+        if (direccion.getProvincia() != null && !direccion.getProvincia().isBlank()) {
+            if (!sb.isEmpty()) {
+                sb.append(", ");
+            }
+            sb.append(direccion.getProvincia());
+        }
+        if (direccion.getCodigoPostal() != null && !direccion.getCodigoPostal().isBlank()) {
+            if (!sb.isEmpty()) {
+                sb.append(" ");
+            }
+            sb.append("CP ").append(direccion.getCodigoPostal());
+        }
+        return sb.isEmpty() ? null : sb.toString();
     }
 }
